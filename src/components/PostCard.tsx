@@ -19,6 +19,8 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { ConfirmationModal } from "./ConfirmationModal";
+import { api } from "../apis";
+import { deletePost } from "@/app/actions";
 
 interface PostCardProps {
   index: number;
@@ -30,6 +32,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, index }) => {
   const toast = useToast();
 
   const handleDelete = async () => {
+    await deletePost(post.id);
     onClose();
     toast({
       title: "Post deleted.",
