@@ -27,7 +27,7 @@ const schema = Yup.object({
 
 interface AddUpdatePostProps {
   post?: TPost;
-  onSubmit: (title: string, content: string) => void;
+  onSubmit: (title: string, content: string, postId: string) => void;
 }
 
 const AddUpdatePost: React.FC<AddUpdatePostProps> = ({ post, onSubmit }) => {
@@ -39,7 +39,7 @@ const AddUpdatePost: React.FC<AddUpdatePostProps> = ({ post, onSubmit }) => {
   });
 
   const handleSubmit = async (values: TPostFormValues) => {
-    await onSubmit(values.title, values.content);
+    await onSubmit(values.title, values.content, post?.id || "");
   };
 
   return (
