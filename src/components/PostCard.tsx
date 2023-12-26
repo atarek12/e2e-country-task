@@ -19,8 +19,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { ConfirmationModal } from "./ConfirmationModal";
-import { api } from "../apis";
-import { deletePost } from "@/app/actions";
+import { deletePostAction } from "@/app/actions";
 
 interface PostCardProps {
   post: TPost;
@@ -41,7 +40,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const toast = useToast();
 
   const handleDelete = async () => {
-    await deletePost(post.id);
+    await deletePostAction(post.id);
     onClose();
     toast({
       title: "Post deleted.",
@@ -97,7 +96,6 @@ const PostCard: React.FC<PostCardProps> = ({
           {showViewButton && (
             <Button
               flex="1"
-              colorScheme="blue"
               leftIcon={<ViewIcon />}
               as={Link}
               href={`/post/${post.id}`}

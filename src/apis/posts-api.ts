@@ -20,9 +20,8 @@ export async function getPost(variables: TGetPostVariables) {
 }
 
 export type TCreatePostVariables = {
-  code: string;
-  date: string;
-  capacity: number;
+  title: string;
+  content: string;
 };
 export async function createPost(variables: TCreatePostVariables) {
   const { ...data } = variables;
@@ -35,9 +34,8 @@ export async function createPost(variables: TCreatePostVariables) {
 
 export type TUpdatePostVariables = {
   postId: string;
-  code: string;
-  date: string;
-  capacity: number;
+  title: string;
+  content: string;
 };
 export async function updatePost(variables: TUpdatePostVariables) {
   const { postId, ...data } = variables;

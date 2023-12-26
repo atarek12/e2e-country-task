@@ -4,8 +4,8 @@ import { api } from "@/src/apis";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function deletePostAction(postId: string) {
-  await api.deletePost({ postId });
+export async function createPostAction(title: string, content: string) {
+  await api.createPost({ title, content });
   revalidatePath("/");
   redirect("/");
 }

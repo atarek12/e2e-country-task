@@ -13,7 +13,7 @@ const BackButton: React.FC<BackButtonProps> = ({}) => {
       leftIcon={<ArrowBackIcon />}
       variant="link"
       as={Link}
-      href="/"
+      href="../"
       replace
       mb="20px"
     >

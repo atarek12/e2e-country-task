@@ -1,5 +1,5 @@
 import { api } from "@/src/apis";
-import { PostsList } from "@/src/components";
+import { CreateButton, PostsList } from "@/src/components";
 import { Container, Heading, Stack } from "@chakra-ui/react";
 
 export default async function Home() {
@@ -7,7 +7,10 @@ export default async function Home() {
   return (
     <Container as="main" maxW="1400" paddingTop="60px">
       <Stack spacing="16px" flex="1">
-        <Heading>What is new...</Heading>
+        <Stack direction="row" justify="space-between">
+          <Heading>What is new...</Heading>
+          <CreateButton />
+        </Stack>
         <PostsList posts={posts || []} />
       </Stack>
     </Container>
