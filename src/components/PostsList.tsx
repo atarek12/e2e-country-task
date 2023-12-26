@@ -10,9 +10,9 @@ interface PostsListProps {
 const PostsList: React.FC<PostsListProps> = ({ posts }) => {
   return (
     <Stack spacing="20px">
-      {posts.map((post, index) => (
+      {posts.map((post) => (
         <Box key={post.id}>
-          <PostCard index={index} post={post} />
+          <PostCard post={post} showViewButton />
         </Box>
       ))}
     </Stack>

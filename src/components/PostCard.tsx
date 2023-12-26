@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TPost } from "../types";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Box,
   Card,
@@ -23,11 +23,20 @@ import { api } from "../apis";
 import { deletePost } from "@/app/actions";
 
 interface PostCardProps {
-  index: number;
   post: TPost;
+  showDeleteButton?: boolean;
+  showViewButton?: boolean;
+  showEditButton?: boolean;
+  showContent?: boolean;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, index }) => {
+const PostCard: React.FC<PostCardProps> = ({
+  post,
+  showDeleteButton,
+  showViewButton,
+  showEditButton,
+  showContent,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -48,37 +57,54 @@ const PostCard: React.FC<PostCardProps> = ({ post, index }) => {
       <Card border="1px solid" borderColor="blue.100">
         <CardHeader>
           <Flex flex="1" gap="4" alignItems="center">
-            <Avatar name={`${index + 1}`} />
+            <Avatar name={post.id} />
             <Box>
               <Heading size="sm">{post.title}</Heading>
               <Text>POST ID: {post.id}</Text>
             </Box>
           </Flex>
         </CardHeader>
-        <CardBody>
-          <Text>{post.content}</Text>
-        </CardBody>
+        {showContent && (
+          <CardBody>
+            <Text>{post.content}</Text>
+          </CardBody>
+        )}
 
         <CardFooter>
-          <Button
-            flex="1"
-            mr="10px"
-            colorScheme="red"
-            variant="outline"
-            leftIcon={<DeleteIcon />}
-            onClick={onOpen}
-          >
-            Delete Post
-          </Button>
-          <Button
-            flex="1"
-            colorScheme="blue"
-            leftIcon={<EditIcon />}
-            as={Link}
-            href={`post/${post.id}`}
-          >
-            Edit Post
-          </Button>
+          {showDeleteButton && (
+            <Button
+              flex="1"
+              colorScheme="red"
+              variant="outline"
+              mr="20px"
+              leftIcon={<DeleteIcon />}
+              onClick={onOpen}
+            >
+              Delete Post
+            </Button>
+          )}
+          {showEditButton && (
+            <Button
+              flex="1"
+              colorScheme="blue"
+              leftIcon={<EditIcon />}
+              as={Link}
+              href={`/post/${post.id}/edit`}
+            >
+              Edit Post
+            </Button>
+          )}
+          {showViewButton && (
+            <Button
+              flex="1"
+              colorScheme="blue"
+              leftIcon={<ViewIcon />}
+              as={Link}
+              href={`/post/${post.id}`}
+            >
+              View Post
+            </Button>
+          )}
         </CardFooter>
       </Card>
 
