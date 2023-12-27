@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { TPost } from "../types";
 import { EditIcon, DeleteIcon, ViewIcon } from "@chakra-ui/icons";
 import {
@@ -37,18 +37,31 @@ const PostCard: React.FC<PostCardProps> = ({
   showContent,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
   const handleDelete = async () => {
-    await deletePostAction(post.id);
-    onClose();
-    toast({
-      title: "Post deleted.",
-      description: "We've deleted the post.",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
+    setIsLoading(true);
+    try {
+      await deletePostAction(post.id);
+      onClose();
+      toast({
+        title: "Post deleted.",
+        description: "We've deleted the post.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error!!.",
+        description: "Something went wrong.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -110,6 +123,7 @@ const PostCard: React.FC<PostCardProps> = ({
         isOpen={isOpen}
         onConfirm={handleDelete}
         onClose={onClose}
+        isLoading={isLoading}
       />
     </>
   );

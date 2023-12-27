@@ -8,6 +8,7 @@ import {
   Stack,
   CardFooter,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,10 +28,11 @@ const schema = Yup.object({
 
 interface AddUpdatePostProps {
   post?: TPost;
-  onSubmit: (title: string, content: string, postId: string) => void;
+  onSubmit: (title: string, content: string, postId: string) => Promise<void>;
 }
 
 const AddUpdatePost: React.FC<AddUpdatePostProps> = ({ post, onSubmit }) => {
+  const toast = useToast();
   const isAdding = !post;
 
   const useFormAttributes = useForm<TPostFormValues>({
@@ -39,7 +41,24 @@ const AddUpdatePost: React.FC<AddUpdatePostProps> = ({ post, onSubmit }) => {
   });
 
   const handleSubmit = async (values: TPostFormValues) => {
-    await onSubmit(values.title, values.content, post?.id || "");
+    try {
+      await onSubmit(values.title, values.content, post?.id || "");
+      toast({
+        title: "Post saved.",
+        description: "We've saved the post.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error!!.",
+        description: "Something went wrong.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -58,7 +77,12 @@ const AddUpdatePost: React.FC<AddUpdatePostProps> = ({ post, onSubmit }) => {
           </CardBody>
 
           <CardFooter>
-            <Button type="submit" width="100%" colorScheme="blue">
+            <Button
+              type="submit"
+              width="100%"
+              colorScheme="blue"
+              isLoading={useFormAttributes.formState.isSubmitting}
+            >
               {isAdding ? "Create" : "Update"}
             </Button>
           </CardFooter>

@@ -10,12 +10,14 @@ import {
 import React from "react";
 
 interface ConfirmationModalProps {
+  isLoading?: boolean;
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+  isLoading,
   isOpen,
   onClose,
   onConfirm,
@@ -43,7 +45,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <Button ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={onConfirm} ml={3}>
+            <Button
+              colorScheme="red"
+              onClick={onConfirm}
+              ml={3}
+              isLoading={isLoading}
+            >
               Delete
             </Button>
           </AlertDialogFooter>
